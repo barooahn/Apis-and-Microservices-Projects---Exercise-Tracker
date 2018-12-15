@@ -59,11 +59,17 @@ app.get('/api/exercise/users', (req,res) => {
 });
 
 app.post('/api/exercise/add', (req,res,next) => {
+  const date = "";  
+  if(!req.body.date){ 
+    date = Date.now()
+  }else{  
+    date = req.body.date}; 
+   
     Exercise.create({  
         userId: req.body.userId,
         description: req.body.description,
         duration: req.body.duration,
-        date: req.body.date
+        date: date
     }, function (err, data) {    
       if (err) {
         console.log(err)
