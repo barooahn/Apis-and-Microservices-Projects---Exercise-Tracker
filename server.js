@@ -5,6 +5,7 @@ var mongo = require('mongodb');
 const cors = require('cors')
 
 const mongoose = require('mongoose')
+const AutoIncrement = require('mongoose-sequence')(mongoose);
 mongoose.connect(process.env.MLAB_URI || 'mongodb://localhost/exercise-track' )
 
 const Schema = mongoose.Schema;
@@ -12,7 +13,7 @@ const Schema = mongoose.Schema;
 const userSchema = new Schema({
   username:{type:String,required:true},
 }); 
-
+userSchema.plugin(AutoIncrement, {inc_field: 'id'});
 const User = mongoose.model("User", userSchema);
 
 const exerciseSchema = new Schema({
@@ -57,8 +58,8 @@ app.get('/api/exercise/users', (req,res) => {
   });
 });
 
-app.post('/api/exercise/new-user', (req,res) => {
-  console.log(req.body.username); 
+app.post('/api/exercise/add', (req,res) => {
+
     User.create({ username: req.body.username }, function (err, data) {
       console.log(data);
       if (err) {
