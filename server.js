@@ -19,7 +19,7 @@ const User = mongoose.model("User", userSchema);
 const exerciseSchema = new Schema({
   userId:{type:String,required:true},
   description:{type:String,required:true},
-  duration:{type:Number},
+  duration:{type:Number,required:true},
   date:{type:Date}
 }); 
 
@@ -58,15 +58,18 @@ app.get('/api/exercise/users', (req,res) => {
   });
 });
 
-app.post('/api/exercise/add', (req,res) => {
-
-    User.create({ username: req.body.username }, function (err, data) {
-      console.log(data);
+app.post('/api/exercise/add', (req,res,next) => {
+    Exercise.create({  
+        userId: req.body.userId,
+        description: req.body.description,
+        duration: req.body.duration,
+        date: req.body.date
+    }, function (err, data) {    
       if (err) {
         console.log(err)
         res.json({"error":err.code});
       }else {
-        res.json({"username":data.username, "userId":data.id });
+        res.json({"exercise":data});
       }
     });
 });
