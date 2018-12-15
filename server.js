@@ -35,7 +35,29 @@ app.get('/', (req, res) => {
   res.sendFile(__dirname + '/views/index.html')
 });
 
+app.post('/api/exercise/new-user', (req,res) => {
+  console.log(req.body.username); 
+    User.create({ username: req.body.username }, function (err, data) {
+      console.log(data);
+      if (err) {
+        console.log(err)
+        res.json({"error":err.code});
+      }else {
+        res.json({"username":data.username, "userId":data.id });
+      }
 
+    });
+    
+})
+
+app.get('/api/exercise/new-user', (req,res) => {
+  User.find({}, function(err, users) {
+      if (!err){ 
+          res.json(users);
+          process.exit();
+      } else {throw err;}
+  });
+})
 // Not found middleware
 app.use((req, res, next) => {
   return next({status: 404, message: 'not found'})
@@ -61,20 +83,6 @@ app.use((err, req, res, next) => {
 })
 
 
-app.post('/api/exercise/new-user', (req,res) => {
-//   console.log(req.body.username); 
-//     User.create({ username: req.body.username }, function (err, data) {
-//       console.log(data);
-//       if (err) {
-//         console.log(err)
-//         res.json({"error":err.code});
-//       }else {
-//         res.json({"username":data.username, "userId":data.id });
-//       }
-
-//     });
-    
-})
 
 const listener = app.listen(process.env.PORT || 3000, () => {
   console.log('Your app is listening on port ' + listener.address().port)
