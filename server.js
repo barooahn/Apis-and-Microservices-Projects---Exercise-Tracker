@@ -29,8 +29,8 @@ app.use(cors())
 app.use(bodyParser.urlencoded({extended: false}))
 app.use(bodyParser.json())
 
-
 app.use(express.static('public'))
+
 app.get('/', (req, res) => {
   res.sendFile(__dirname + '/views/index.html')
 });
@@ -45,19 +45,31 @@ app.post('/api/exercise/new-user', (req,res) => {
       }else {
         res.json({"username":data.username, "userId":data.id });
       }
-
     });
-    
-})
+});
 
-app.get('/api/exercise/new-user', (req,res) => {
+app.get('/api/exercise/users', (req,res) => {
   User.find({}, function(err, users) {
+        console.log(users)
       if (!err){ 
-          res.json(users);
-          process.exit();
+          res.json({users});
       } else {throw err;}
   });
-})
+});
+
+app.post('/api/exercise/new-user', (req,res) => {
+  console.log(req.body.username); 
+    User.create({ username: req.body.username }, function (err, data) {
+      console.log(data);
+      if (err) {
+        console.log(err)
+        res.json({"error":err.code});
+      }else {
+        res.json({"username":data.username, "userId":data.id });
+      }
+    });
+});
+
 // Not found middleware
 app.use((req, res, next) => {
   return next({status: 404, message: 'not found'})
