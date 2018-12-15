@@ -80,6 +80,15 @@ app.post('/api/exercise/add', (req,res,next) => {
     });
 });
 
+app.get('/api/exercise/log/:userId/', (req,res) => {
+  User.find({userId: }, function(err, users) {
+        console.log(users)
+      if (!err){ 
+          res.json({users});
+      } else {throw err;}
+  });
+});
+
 // Not found middleware
 app.use((req, res, next) => {
   return next({status: 404, message: 'not found'})
