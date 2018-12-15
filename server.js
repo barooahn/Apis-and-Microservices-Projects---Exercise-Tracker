@@ -13,12 +13,16 @@ const userSchema = new Schema({
   username:{type:String,required:true},
 }); 
 
+const User = mongoose.model("User", userSchema);
+
 const exerciseSchema = new Schema({
   userId:{type:String,required:true},
   description:{type:String,required:true},
   duration:{type:Number},
-  date:{type:String}
+  date:{type:Date}
 }); 
+
+const Exercise = mongoose.model("Exercise", exerciseSchema);
 
 app.use(cors())
 
@@ -57,8 +61,18 @@ app.use((err, req, res, next) => {
 })
 
 
+app.post('/api/exercise/new-user', (req,res) => {
+    User.create({ username: req.body.username }, function (err, data) {
+    if (err) {
+      console.log(err)
+      res.json({"error":err.code});
+    }else {
+      res.json({"user":url, "short_url":data.id });
+    }
 
-
+  });
+    
+})
 
 const listener = app.listen(process.env.PORT || 3000, () => {
   console.log('Your app is listening on port ' + listener.address().port)
