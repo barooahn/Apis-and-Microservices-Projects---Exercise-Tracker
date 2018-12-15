@@ -81,10 +81,10 @@ app.post('/api/exercise/add', (req,res,next) => {
 });
 
 app.get('/api/exercise/log/:userId/', (req,res) => {
-  User.find({userId: }, function(err, users) {
-        console.log(users)
+  Exercise.find({userId: req.params.userId}, function(err, exercises) {
+        console.log(exercises)
       if (!err){ 
-          res.json({users});
+          res.json({exercises});
       } else {throw err;}
   });
 });
