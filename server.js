@@ -1,7 +1,7 @@
 const express = require('express')
 const app = express()
 const bodyParser = require('body-parser')
-
+var mongo = require('mongodb');
 const cors = require('cors')
 
 const mongoose = require('mongoose')
@@ -62,15 +62,17 @@ app.use((err, req, res, next) => {
 
 
 app.post('/api/exercise/new-user', (req,res) => {
-    User.create({ username: req.body.username }, function (err, data) {
-    if (err) {
-      console.log(err)
-      res.json({"error":err.code});
-    }else {
-      res.json({"user":url, "short_url":data.id });
-    }
+//   console.log(req.body.username); 
+//     User.create({ username: req.body.username }, function (err, data) {
+//       console.log(data);
+//       if (err) {
+//         console.log(err)
+//         res.json({"error":err.code});
+//       }else {
+//         res.json({"username":data.username, "userId":data.id });
+//       }
 
-  });
+//     });
     
 })
 
