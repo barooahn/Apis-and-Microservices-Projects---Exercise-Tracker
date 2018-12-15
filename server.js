@@ -59,7 +59,7 @@ app.get('/api/exercise/users', (req,res) => {
 });
 
 app.post('/api/exercise/add', (req,res,next) => {
-  const date = "";  
+  let date = "";  
   if(!req.body.date){ 
     date = Date.now()
   }else{  
