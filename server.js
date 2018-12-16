@@ -81,12 +81,20 @@ app.post('/api/exercise/add', (req,res,next) => {
 });
 
 app.get('/api/exercise/log/:userId/:from?/:to?/:limit?', (req,res,next) => {
+  const data = {
+    'query':
+      { 
+        'id':  req.params.userId ,
+       'from':  req.params.from || 0,
+        'to':  req.params.to || Date.now(),
+        'limit': req.params.limit 
+      }
+  }
   
+  const {id, from, to, limit } = data.query;
   
-  
-  if(!req.prams.limit && !req.prams.to && !req.prams.from) {
-      Exercise.find({
-        userId: req.params.userId,
+  Exercise.find({
+        userId: id, {date: $gte
             function(err, exercises) {
             console.log(exercises)
           if (!err){ 
