@@ -81,7 +81,7 @@ app.post('/api/exercise/add', (req,res,next) => {
 });
 
 app.get('/api/exercise/log/:userId/:from/:to/:limit', (req,res) => {
-  Exercise.find({userId: req.params.userId}, function(err, exercises) {
+  Exercise.find({userId: req.params.userId, date: { $gte: from }}, function(err, exercises) {
         console.log(exercises)
       if (!err){ 
           res.json({exercises});
