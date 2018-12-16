@@ -80,25 +80,22 @@ app.post('/api/exercise/add', (req,res,next) => {
     });
 });
 
-app.get('/api/exercise/log/:userId/:from/:to/:limit', (req,res) => {
-  if(!req.prams.limit) {
-      
+app.get('/api/exercise/log/:userId/:from?/:to?/:limit?', (req,res,next) => {
+  
+  
+  
+  if(!req.prams.limit && !req.prams.to && !req.prams.from) {
+      Exercise.find({
+        userId: req.params.userId,
+            function(err, exercises) {
+            console.log(exercises)
+          if (!err){ 
+              res.json({exercises});
+          } else {throw err;}
+      }});
+    
+    next();
   }
-  
-  
-  
-  
-  
-  Exercise.find({
-    userId: req.params.userId, 
-    date: { $gte: req.prams.from, $lte: req.prams.to }})    
-    .limit(req.prams.limit || Number.MAX_SAFE_INTEGER)
-    .exec(function(err, exercises) {
-        console.log(exercises)
-      if (!err){ 
-          res.json({exercises});
-      } else {throw err;}
-  });
 });
 
 // Not found middleware
