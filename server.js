@@ -87,23 +87,22 @@ app.get('/api/exercise/log/:userId/:from?/:to?/:limit?', (req,res,next) => {
         'id':  req.params.userId ,
        'from':  req.params.from || 0,
         'to':  req.params.to || Date.now(),
-        'limit': req.params.limit 
+        'limit': req.params.limit || 100
       }
   }
   
   const {id, from, to, limit } = data.query;
   
   Exercise.find({
-        userId: id, {date: $gte
-            function(err, exercises) {
-            console.log(exercises)
-          if (!err){ 
-              res.json({exercises});
-          } else {throw err;}
-      }});
-    
-    next();
-  }
+    userId: id, date: { $gte: from, $lte: to}})
+      .limit(limit)
+      .exec(function(err, exercises) {
+        console.log(exercises)
+      if (!err){ 
+          res.json({exercises});
+      } else {throw err;}
+  });
+     
 });
 
 // Not found middleware
