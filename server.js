@@ -81,7 +81,15 @@ app.post('/api/exercise/add', (req,res,next) => {
 });
 
 app.get('/api/exercise/log/:userId/:from/:to/:limit', (req,res) => {
-  const log = Exercise.find({
+  if(!req.prams.limit) {
+      
+  }
+  
+  
+  
+  
+  
+  Exercise.find({
     userId: req.params.userId, 
     date: { $gte: req.prams.from, $lte: req.prams.to }})    
     .limit(req.prams.limit || Number.MAX_SAFE_INTEGER)
