@@ -80,7 +80,7 @@ app.post('/api/exercise/add', (req,res,next) => {
     });
 });
 
-app.get('/api/exercise/log/:userId/', (req,res) => {
+app.get('/api/exercise/log/:userId/:from/:to/:limit', (req,res) => {
   Exercise.find({userId: req.params.userId}, function(err, exercises) {
         console.log(exercises)
       if (!err){ 
